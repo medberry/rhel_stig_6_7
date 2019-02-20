@@ -2,12 +2,13 @@
   become: yes
 
   vars:
-    rhel6stig_update_all_packages: no
+    rhel6stig_update_all_packages: yes
+#    rhel6stig_update_all_packages: no
 
   roles:
     - role: MindPointGroup.stig_rhel6
       rhel6stig_cat1: yes
-      rhel6stig_cat2: no
+      rhel6stig_cat2: yes
       rhel6stig_cat3: no
       when:
           - ansible_os_family == 'RedHat'

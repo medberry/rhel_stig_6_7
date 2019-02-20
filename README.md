@@ -1,5 +1,5 @@
 Cerner POC 2019-02-25
 STIG Compliance and Remediation
 
-ansible-playbook  -u centos -i ../centos.inventory -vvv   site.yml -lcentos6old --tags "V-38668,V-38587"
-ansible-playbook  -u centos -i ../centos.inventory -vvv   site.yml -l centos6 --tags "V-38668,V-38587,V-38481"
+ansible-playbook  -u centos site.yml -lcentos6old --tags "V-38668,V-38587"
+ansible-playbook  -u centos site.yml -l centos6 --tags "V-38668,V-38587,V-38481"

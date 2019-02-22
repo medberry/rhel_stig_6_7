@@ -1,0 +1,5 @@
+---
+- src: MindPointGroup.RHEL7-STIG
+
+- src: MindPointGroup.stig_rhel6
+

@@ -6,7 +6,6 @@
     check_mode_warning:
       - "This was only an Ansible Check-Mode Run !"
       - "Examine the Recap Summary below for nodes that WOULD have been changed."
-      - "NOTE: This message itself will INCREASE the changed count on the affiliated item."
 
   pre_tasks:
     - name: Check Mode Header
@@ -14,8 +13,16 @@
         var: check_mode_warning
       tags: check_mode_tag
       run_once: true
-      changed_when: true
       when: ansible_check_mode
+
+    - name: Disable show ok and disable show diff
+      meta: noop
+      environment: 
+        ANSIBLE_DISPLAY_OK_HOSTS=0
+        DISPLAY_SKIPPED_HOSTS=0
+      run_once: true
+      when: ansible_check_mode
+      
 
 
   roles:
@@ -40,6 +47,18 @@
         var: check_mode_warning
       tags: check_mode_tag
       run_once: true
-      changed_when: true
       when: ansible_check_mode
+      environment: 
+        ANSIBLE_DISPLAY_OK_HOSTS=1
+        DISPLAY_SKIPPED_HOSTS=1
+ 
+
+    - name: Enable show ok and enable show diff
+      meta: noop
+      environment: 
+        ANSIBLE_DISPLAY_OK_HOSTS=1
+        DISPLAY_SKIPPED_HOSTS=1
+      run_once: true
+      when: ansible_check_mode
+
 

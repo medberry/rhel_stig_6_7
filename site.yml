@@ -11,9 +11,9 @@
     - name: Check Mode Header
       debug: 
         var: check_mode_warning
-      tags: check_mode_tag
       run_once: true
       when: ansible_check_mode
+      tags: check-mode-tag
 
   roles:
     - role: MindPointGroup.stig_rhel6
@@ -41,8 +41,8 @@
       rhel6stig_cat2: yes
       rhel6stig_cat3: yes
       environment:
-        ANSIBLE_DISPLAY_OK_HOSTS=0
-        DISPLAY_SKIPPED_HOSTS=0
+        ANSIBLE_DISPLAY_OK_HOSTS: 0
+        DISPLAY_SKIPPED_HOSTS: 0
       when:
           - ansible_os_family == 'RedHat'
           - ansible_distribution_major_version | version_compare('6', '=')
@@ -55,8 +55,8 @@
           - ansible_os_family == 'RedHat'
           - ansible_distribution_major_version | version_compare('7', '=')
       environment:
-        ANSIBLE_DISPLAY_OK_HOSTS=0
-        DISPLAY_SKIPPED_HOSTS=0
+        ANSIBLE_DISPLAY_OK_HOSTS: 0
+        DISPLAY_SKIPPED_HOSTS: 0
  
 
 
@@ -64,8 +64,8 @@
     - name: Check Mode Banner
       debug: 
         var: check_mode_warning
-      tags: check_mode_tag
       run_once: true
       when: ansible_check_mode
+      tags: check-mode-tag
 
 

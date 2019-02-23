@@ -1,4 +1,23 @@
-- hosts: all
+---
+- name: Header
+  hosts: localhost
+  vars:
+    rhel6stig_update_all_packages: yes
+    check_mode_warning:
+      - "This was only an Ansible Check-Mode Run !"
+      - "Examine the Recap Summary below for nodes that WOULD have been changed."
+
+
+  tasks:
+    - name: Show Header
+      debug:
+        var: check_mode_warning
+      changed_when: true
+      tags: check-mode-tag
+      when: ansible_check_mode
+
+- name: Run both the RHEL 6 STIG and RHEL 7 STIG Roles
+  hosts: all
   become: yes
 
   vars:
@@ -6,15 +25,6 @@
     check_mode_warning:
       - "This was only an Ansible Check-Mode Run !"
       - "Examine the Recap Summary below for nodes that WOULD have been changed."
-
-  pre_tasks:
-    - name: Check Mode Header
-      debug: 
-        var: check_mode_warning
-      run_once: true
-      changed_when: true
-      when: ansible_check_mode
-      tags: check-mode-tag
 
   roles:
     - role: MindPointGroup.stig_rhel6
@@ -41,9 +51,6 @@
       rhel6stig_cat1: yes
       rhel6stig_cat2: yes
       rhel6stig_cat3: yes
-      environment:
-        ANSIBLE_DISPLAY_OK_HOSTS: 0
-        DISPLAY_SKIPPED_HOSTS: 0
       when:
           - ansible_os_family == 'RedHat'
           - ansible_distribution_major_version | version_compare('6', '=')
@@ -55,18 +62,24 @@
       when:
           - ansible_os_family == 'RedHat'
           - ansible_distribution_major_version | version_compare('7', '=')
-      environment:
-        ANSIBLE_DISPLAY_OK_HOSTS: 0
-        DISPLAY_SKIPPED_HOSTS: 0
  
 
 
+- name: Footer
+  hosts: localhost
+  vars:
+    rhel6stig_update_all_packages: yes
+    check_mode_warning:
+      - "This was only an Ansible Check-Mode Run !"
+      - "Examine the Recap Summary for nodes that WOULD have been changed."
+
+
   tasks:
-    - name: Check Mode Banner
-      debug: 
+    - name: Show Footer
+      debug:
         var: check_mode_warning
-      run_once: true
-      when: ansible_check_mode
-      tags: check-mode-tag
       changed_when: true
+      tags: check-mode-tag
+      when: ansible_check_mode
+
 

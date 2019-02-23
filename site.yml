@@ -15,16 +15,6 @@
       run_once: true
       when: ansible_check_mode
 
-    - name: Disable show ok and disable show diff
-      meta: noop
-      environment: 
-        ANSIBLE_DISPLAY_OK_HOSTS=0
-        DISPLAY_SKIPPED_HOSTS=0
-      run_once: true
-      when: ansible_check_mode
-      
-
-
   roles:
     - role: MindPointGroup.stig_rhel6
       rhel6stig_cat1: yes
@@ -32,7 +22,10 @@
       rhel6stig_cat3: yes
       when:
           - ansible_os_family == 'RedHat'
+          - not ansible_check_mode
           - ansible_distribution_major_version | version_compare('6', '=')
+          # No environment changes
+
     - role: MindPointGroup.RHEL7-STIG
       rhel7stig_cat1_patch: yes
       rhel7stig_cat2_patch: yes
@@ -40,24 +33,38 @@
       when:
           - ansible_os_family == 'RedHat'
           - ansible_distribution_major_version | version_compare('7', '=')
+          - not ansible_check_mode
+          # No environment changes
+
+    - role: MindPointGroup.stig_rhel6
+      rhel6stig_cat1: yes
+      rhel6stig_cat2: yes
+      rhel6stig_cat3: yes
+      environment:
+        ANSIBLE_DISPLAY_OK_HOSTS=0
+        DISPLAY_SKIPPED_HOSTS=0
+      when:
+          - ansible_os_family == 'RedHat'
+          - ansible_distribution_major_version | version_compare('6', '=')
+          - ansible_check_mode
+    - role: MindPointGroup.RHEL7-STIG
+      rhel7stig_cat1_patch: yes
+      rhel7stig_cat2_patch: yes
+      rhel7stig_cat3_patch: yes
+      when:
+          - ansible_os_family == 'RedHat'
+          - ansible_distribution_major_version | version_compare('7', '=')
+      environment:
+        ANSIBLE_DISPLAY_OK_HOSTS=0
+        DISPLAY_SKIPPED_HOSTS=0
+ 
+
 
   tasks:
     - name: Check Mode Banner
       debug: 
         var: check_mode_warning
       tags: check_mode_tag
-      run_once: true
-      when: ansible_check_mode
-      environment: 
-        ANSIBLE_DISPLAY_OK_HOSTS=1
-        DISPLAY_SKIPPED_HOSTS=1
- 
-
-    - name: Enable show ok and enable show diff
-      meta: noop
-      environment: 
-        ANSIBLE_DISPLAY_OK_HOSTS=1
-        DISPLAY_SKIPPED_HOSTS=1
       run_once: true
       when: ansible_check_mode
 

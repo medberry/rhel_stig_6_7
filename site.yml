@@ -5,8 +5,7 @@
     rhel6stig_update_all_packages: yes
     check_mode_warning:
       - "This was only an Ansible Check-Mode Run !"
-      - "Examine the Recap Summary below for nodes that WOULD have been changed."
-
+      - "Examine the PLAY RECAP below for nodes that WOULD have been changed."
 
   tasks:
     - name: Show Header
@@ -71,7 +70,7 @@
     rhel6stig_update_all_packages: yes
     check_mode_warning:
       - "This was only an Ansible Check-Mode Run !"
-      - "Examine the Recap Summary for nodes that WOULD have been changed."
+      - "Examine the PLAY RECAP for nodes that WOULD have been changed."
 
 
   tasks:

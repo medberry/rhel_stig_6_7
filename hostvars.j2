@@ -1,23 +1,25 @@
 Check Mode (listing machines that need upgrading/protected/changed.)
 
 {% for host in ansible_play_hosts %}
+HOST: {{ host }}:
 {% if hostvars[host]['V-38668-RESULTS'] is defined %}
-  HOST: {{ host }} V-38668: {{ hostvars[host]['V-38668-RESULTS']['changed'] | default('NO-V-38668-RESULTS') }}
+          V-38668: {{ hostvars[host]['V-38668-RESULTS']['changed'] | default('NO-V-38668-RESULTS') }}
 {% endif %}
 {% if hostvars[host]['V-38587-RESULTS'] is defined %}
-  HOST: {{ host }} V-38587: {{ hostvars[host]['V-38587-RESULTS']['changed'] | default('NO-V-38587-RESULTS') }}
+          V-38587: {{ hostvars[host]['V-38587-RESULTS']['changed'] | default('NO-V-38587-RESULTS') }}
 {% endif %}
 {% if hostvars[host]['V-38649-RESULTS'] is defined %}
-  HOST: {{ host }} V-38649: {{ hostvars[host]['V-38649-RESULTS']['changed'] | default('NO-V-38649-RESULTS') }}
+          V-38649: {{ hostvars[host]['V-38649-RESULTS']['changed'] | default('NO-V-38649-RESULTS') }}
 {% endif %}
 {% if hostvars[host]['V-38617-RESULTS'] is defined %}
-  HOST: {{ host }} V-38617: {{ hostvars[host]['V-38617-RESULTS']['changed'] | default('NO-V-38617-RESULTS') }}
+          V-38617: {{ hostvars[host]['V-38617-RESULTS']['changed'] | default('NO-V-38617-RESULTS') }}
 {% endif %}
 {% if hostvars[host]['V-38481-RESULTS'] is defined %}
-  HOST: {{ host }} V-38481: {{ hostvars[host]['V-38481-RESULTS']['changed'] | default('NO-V-38481-RESULTS') }}
+          V-38481: {{ hostvars[host]['V-38481-RESULTS']['changed'] | default('NO-V-38481-RESULTS') }}
 {% endif %}
 
 {% endfor %}
 
 Ran on {{ ansible_date_time.iso8601 }}
 V-38668-RESULTS V-38587-RESULTS V-38649-RESULTS V-38617-RESULTS  V-38481-RESULTS
+{# add a check for changed and only print if changed. #}

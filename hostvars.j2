@@ -3,6 +3,10 @@
 
 {% for host in ansible_play_hosts %}
   HOST: {{ host }} IP: {{ hostvars[host]['ansible_default_ipv4']['address'] }}
+{% if hostvars[host]['V-38668-RESULTS'] is defined %}
   HOST: {{ host }} V-38668: {{ hostvars[host]['V-38668-RESULTS']['changed'] | default('NO-V-38668-RESULTS') }}
+{% else %}
+  HOST: {{ host }} V-38668: NO-V-38668-RESULTS
+{% endif %}
 {% endfor %}
 

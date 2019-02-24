@@ -61,24 +61,52 @@
       when:
           - ansible_os_family == 'RedHat'
           - ansible_distribution_major_version | version_compare('7', '=')
- 
-
-
-- name: Footer
-  hosts: localhost
-  vars:
-    rhel6stig_update_all_packages: yes
-    check_mode_warning:
-      - "This was only an Ansible Check-Mode Run !"
-      - "Examine the PLAY RECAP for nodes that WOULD have been changed."
-
 
   tasks:
-    - name: Show Footer
-      debug:
-        var: check_mode_warning
-      changed_when: true
+    - name: tasks in main play
+      local_action: template src=hostvars.j2 dest=/home/medberry/tmp/PLAY_OUTPUT owner=medberry group=medberry mode='a+r'
       tags: check-mode-tag
-      when: ansible_check_mode
-
-
+      run_once:
+      ignore_errors:
+      
+#
+#- name: Footer
+#  hosts: localhost
+#  vars:
+#    rhel6stig_update_all_packages: yes
+#    check_mode_warning:
+#      - "This was only an Ansible Check-Mode Run !"
+#      - "Examine the PLAY RECAP for nodes that WOULD have been changed."
+#
+#
+#  tasks:
+#    - name: Show Footer
+#      debug:
+#        var: check_mode_warning
+#      changed_when: true
+#      tags: check-mode-tag
+#      when: ansible_check_mode
+#
+#    - name: hostvars
+#      debug:
+#        var: hostvars[0]
+#      tags: check-mode-tag
+#      changed_when: true
+#      
+#
+#    - name: CHANGED
+#      local_action: template src=template.j2 dest=output_file_from_template.out
+#      tags: check-mode-tag
+#      changed_when: true
+#      register: template_results
+#
+#    - name: debug results
+#      debug:
+#        var: template_results
+#      tags: check-mode-tag
+#      changed_when: true
+#
+#    - name: create some file
+#      local_action: template src=hostvars.j2 dest=/tmp/hostvars.out
+#      tags: check-mode-tag
+#      

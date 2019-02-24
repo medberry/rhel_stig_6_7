@@ -48,7 +48,9 @@
 
   tasks:
     - name: tasks in main play
-      local_action: template src=hostvars.j2 dest=/home/medberry/tmp/PLAY_OUTPUT owner=medberry group=medberry mode='a+r'
+      local_action: template src=hostvars.j2 dest=/home/medberry/tmp/PLAY_OUTPUT owner=medberry group=medberry mode='a+r' backup=yes
       tags: check-mode-tag
       run_once: True
+      check_mode: no
+#      changed_when: False
       

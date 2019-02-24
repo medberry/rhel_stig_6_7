@@ -1,5 +1,8 @@
 Check Mode (listing machines that need upgrading/protected/changed.)
 
+The following tags have been used in this run:
+TAGS: {{ ansible_run_tags }}
+
 {% for host in ansible_play_hosts %}
 HOST: {{ host }}:
 {% if hostvars[host]['V-38668-RESULTS'] is defined %}

@@ -38,6 +38,8 @@
           - ansible_os_family == 'RedHat'
           - ansible_distribution_major_version | version_compare('6', '=')
           - ansible_check_mode
+
+
     - role: MindPointGroup.RHEL7-STIG
       rhel7stig_cat1_patch: yes
       rhel7stig_cat2_patch: yes

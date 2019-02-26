@@ -48,11 +48,30 @@
           - ansible_check_mode
 
   tasks:
+    - name: create temporary file
+      local_action: tempfile state=file suffix=.stig_check_report 
+      register: stig_temp
+      run_once: True
+      check_mode: no
+      when: ansible_check_mode
+      become: no
+      tags: check-mode-tag
+# Tagged since we only run tagged items generally speaking with this playbook.
+
     - name: "Generate summary report from compliance check"
-      local_action: template src=hostvars.j2 dest=/tmp/PLAY_OUTPUT mode='a+r' backup=yes
+      local_action: "template src=hostvars.j2 dest={{stig_temp.path}} mode='a+r' backup=yes"
       tags: check-mode-tag
 # Tagged since we only run tagged items generally speaking with this playbook.
       run_once: True
+      check_mode: no
+      changed_when: False
+      when: ansible_check_mode
+      become: no
+  
+    - name: Echo tmpfile
+      local_action:  debug var=stig_temp.path
+      tags: check-mode-tag
+      run_once: true
       check_mode: no
       changed_when: False
       when: ansible_check_mode

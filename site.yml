@@ -55,6 +55,5 @@
 # Tagged since we only run tagged items generally speaking with this playbook.
       run_once: True
       check_mode: no
-#      changed_when: False
-#      when: ansible_check_mode
-      when: false
+      changed_when: False
+      when: ansible_check_mode

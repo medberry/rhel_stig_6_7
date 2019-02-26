@@ -295,6 +295,7 @@
       - V-38475
       - patch
       - passwords
+  register: V-38475-RESULTS
 
 - name: "MEDIUM | V-38477 | PATCH | Users must not be able to change passwords more than once every 24 hours."
   lineinfile:

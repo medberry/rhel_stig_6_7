@@ -7,9 +7,12 @@ TAGS: {{ ansible_run_tags }}
 HOST: {{ host }}:
 {%    for thetag in ansible_run_tags %}
 {%         if hostvars[host][thetag ~ '-RESULTS'] is defined %}
+{%             if hostvars[host][thetag ~ '-RESULTS']['skipped'] is defined %}
+{%             else %}
                       {{ thetag }}: {% if hostvars[host][thetag ~ '-RESULTS']['changed'] %}Failed
 {% else %}Passed
 {% endif %}
+{%             endif %}
 {%         endif %}
 {%    endfor %}
 HOSTVARS: {{ hostvars[host] }}

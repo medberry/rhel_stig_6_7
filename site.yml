@@ -19,14 +19,14 @@
           - not ansible_check_mode
           - ansible_distribution_major_version | version_compare('6', '=')
 
-#    - role: MindPointGroup.RHEL7-STIG
-#      rhel7stig_cat1_patch: yes
-#      rhel7stig_cat2_patch: yes
-#      rhel7stig_cat3_patch: yes
-#      when:
-#          - ansible_os_family == 'RedHat'
-#          - ansible_distribution_major_version | version_compare('7', '=')
-#          - not ansible_check_mode
+    - role: MindPointGroup.RHEL7-STIG
+      rhel7stig_cat1_patch: yes
+      rhel7stig_cat2_patch: yes
+      rhel7stig_cat3_patch: yes
+      when:
+          - ansible_os_family == 'RedHat'
+          - ansible_distribution_major_version | version_compare('7', '=')
+          - not ansible_check_mode
 
     - role: MindPointGroup.stig_rhel6
       rhel6stig_cat1: yes

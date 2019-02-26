@@ -77,3 +77,22 @@
       when: ansible_check_mode
       become: no
 
+    - name: cat report
+      local_action: "command cat {{stig_temp.path}}" 
+      tags: check-mode-tag
+      run_once: true
+      check_mode: no
+      changed_when: False
+      when: ansible_check_mode
+      become: no
+      register: stig_report
+
+    - name: show report
+      local_action: debug var=stig_report.stdout
+      tags: check-mode-tag
+      run_once: true
+      check_mode: no
+      changed_when: False
+      when: ansible_check_mode
+      become: no
+ 

@@ -12,6 +12,7 @@ HOST: {{ host }}:
 {% endif %}
 {%         endif %}
 {%    endfor %}
+HOSTVARS: {{ hostvars[host] }}
 {% endfor %}
 
 Ran on {{ ansible_date_time.iso8601 }}

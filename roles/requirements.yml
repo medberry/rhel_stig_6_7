@@ -5,6 +5,8 @@
 
 - src: https://github.com/medberry/RHEL6-STIG.git
   version: registers
+  name: CernerPOC.stig_rhel6
 
 - src: https://github.com/medberry/RHEL7-STIG.git
   version: registers
+  name: CernerPOC.RHEL7-STIG

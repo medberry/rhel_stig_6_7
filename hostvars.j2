@@ -1,11 +1,11 @@
 Check Mode (listing machines that need upgrading/protected/changed.)
 
 The following tags have been used in this run:
-TAGS: {{ ansible_run_tags }}
+TAGS: {{ ansible_run_tags|sort }}
 
-{% for host in ansible_play_hosts %}
+{% for host in ansible_play_hosts|sort %}
 HOST: {{ host }}:
-{%    for thetag in ansible_run_tags %}
+{%    for thetag in ansible_run_tags|sort %}
 {%         if hostvars[host][thetag ~ '-RESULTS'] is defined %}
 {%             if hostvars[host][thetag ~ '-RESULTS']['skipped'] is defined %}
 {%             else %}

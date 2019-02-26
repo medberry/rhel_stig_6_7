@@ -5,36 +5,16 @@ TAGS: {{ ansible_run_tags }}
 
 {% for host in ansible_play_hosts %}
 HOST: {{ host }}:
-{% if hostvars[host]['V-38668-RESULTS'] is defined %}
-{%     if hostvars[host]['V-38668-RESULTS']['changed'] %}
-          V-38668: Failed
-{%     else %}
-          V-38668: Passed
-{%     endif %}
-{% endif %}
-{% if hostvars[host]['V-38587-RESULTS'] is defined %}
-{%     if hostvars[host]['V-38587-RESULTS']['changed'] %}
-          V-38587: Failed
-{%     else %}
-          V-38587: Passed
-{%     endif %}
-{% endif %}
-{% if hostvars[host]['V-38649-RESULTS'] is defined %}
-          V-38649: {{ hostvars[host]['V-38649-RESULTS']['changed'] | default('NO-V-38649-RESULTS') }}
-{% endif %}
-{% if hostvars[host]['V-38617-RESULTS'] is defined %}
-          V-38617: {{ hostvars[host]['V-38617-RESULTS']['changed'] | default('NO-V-38617-RESULTS') }}
-{% endif %}
-{% if hostvars[host]['V-38481-RESULTS'] is defined %}
-          V-38481: {{ hostvars[host]['V-38481-RESULTS']['changed'] | default('NO-V-38481-RESULTS') }}
-{% endif %}
-
+{%    for thetag in ansible_run_tags %}
+{%         if hostvars[host][thetag ~ '-RESULTS'] is defined %}
+                     {{ thetag }}:
+{%             if hostvars[host][thetag ~ '-RESULTS']['changed'] -%}
+Failed
+{%             else %}
+Passed
+{%-             endif %}
+{%         endif %}
+{%    endfor %}
 {% endfor %}
 
 Ran on {{ ansible_date_time.iso8601 }}
-
-{#
-
-
-
-add a check for changed and only print if changed. #}

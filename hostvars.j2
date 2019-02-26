@@ -7,12 +7,7 @@ TAGS: {{ ansible_run_tags }}
 HOST: {{ host }}:
 {%    for thetag in ansible_run_tags %}
 {%         if hostvars[host][thetag ~ '-RESULTS'] is defined %}
-                     {{ thetag }}:
-{%             if hostvars[host][thetag ~ '-RESULTS']['changed'] -%}
-Failed
-{%             else %}
-Passed
-{%-             endif %}
+                     {{ thetag }}:{% if hostvars[host][thetag ~ '-RESULTS']['changed'] %}Failed{% else %}Passed{%  endif %}
 {%         endif %}
 {%    endfor %}
 {% endfor %}

@@ -48,7 +48,7 @@
           - ansible_check_mode
 
   tasks:
-    - name: "Generate report"
+    - name: "Generate summary report from compliance check"
       local_action: template src=hostvars.j2 dest=/home/medberry/tmp/PLAY_OUTPUT owner=medberry group=medberry mode='a+r' backup=yes
       tags: check-mode-tag
 # Tagged since we only run tagged items generally speaking with this playbook.
@@ -56,11 +56,4 @@
       check_mode: no
       changed_when: False
       when: ansible_check_mode
-
-    - name: hostvars
-      debug:
-        var: hostvars[inventory_hostname]
-      tags: check-mode-tag
-      changed_when: False
-      check_mode: no
 

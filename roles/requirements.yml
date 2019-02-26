@@ -3,3 +3,8 @@
 
 - src: MindPointGroup.stig_rhel6
 
+- src: https://github.com/medberry/RHEL6-STIG.git
+  version: registers
+
+- src: https://github.com/medberry/RHEL7-STIG.git
+  version: registers

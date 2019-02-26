@@ -37,7 +37,6 @@
           - ansible_distribution_major_version | version_compare('6', '=')
           - ansible_check_mode
 
-
     - role: CernerPOC.RHEL7-STIG
       rhel7stig_cat1_patch: yes
       rhel7stig_cat2_patch: yes
@@ -48,51 +47,27 @@
           - ansible_check_mode
 
   tasks:
-    - name: create temporary file
-      local_action: tempfile state=file suffix=.stig_check_report 
-      register: stig_temp
+    - name: Block of local_action (reporting) tasks
+      block:
+        - name: create temporary file
+          local_action: tempfile state=file suffix=.stig_check_report
+          register: stig_temp
+
+        - name: "Generate summary report from compliance check"
+          local_action: "template src=hostvars.j2 dest={{stig_temp.path}} mode='a+r' backup=yes"
+
+        - name: Echo tmpfile
+          local_action:  debug var=stig_temp.path
+
+        - name: cat report
+          local_action: "command cat {{stig_temp.path}}"
+          register: stig_report
+
+        - name: show report
+          local_action: debug var=stig_report.stdout
       run_once: True
       check_mode: no
       when: ansible_check_mode
       become: no
       tags: check-mode-tag
-# Tagged since we only run tagged items generally speaking with this playbook.
-
-    - name: "Generate summary report from compliance check"
-      local_action: "template src=hostvars.j2 dest={{stig_temp.path}} mode='a+r' backup=yes"
-      tags: check-mode-tag
-# Tagged since we only run tagged items generally speaking with this playbook.
-      run_once: True
-      check_mode: no
-      changed_when: False
-      when: ansible_check_mode
-      become: no
-  
-    - name: Echo tmpfile
-      local_action:  debug var=stig_temp.path
-      tags: check-mode-tag
-      run_once: true
-      check_mode: no
-      changed_when: False
-      when: ansible_check_mode
-      become: no
-
-    - name: cat report
-      local_action: "command cat {{stig_temp.path}}" 
-      tags: check-mode-tag
-      run_once: true
-      check_mode: no
-      changed_when: False
-      when: ansible_check_mode
-      become: no
-      register: stig_report
-
-    - name: show report
-      local_action: debug var=stig_report.stdout
-      tags: check-mode-tag
-      run_once: true
-      check_mode: no
-      changed_when: False
-      when: ansible_check_mode
-      become: no
- 
+      # Tagged since we only run tagged items generally speaking with this playbook.

@@ -18,12 +18,8 @@
       shell: rpm -qa | grep -e aex
       args:
         warn: false
-      changed_when: yes
-            # This verifies packages (but reports on files in packages). 
-            # It produces a list of changed files in stdout
       register:
         AEX_001_RESULTS
-            # add a real changed_when rc is 0 fail when 1
       failed_when: false
       tags:
         - AEX_001
@@ -33,6 +29,7 @@
             # Another new oneoff would be entered here before the when
       when: ansible_check_mode
       check_mode: no
+      changed_when: false
 
     - name: Evaluate RESULTS
       debug: 
@@ -40,6 +37,7 @@
       run_once: true
       when: ansible_check_mode
       tags: AEX_001
+      changed_when: AEX_001_RESULTS.rc != 0
 
     - name: Block of local_action (reporting) tasks
       block:

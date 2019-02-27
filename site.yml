@@ -83,19 +83,24 @@
         - name: create temporary file
           local_action: tempfile state=file suffix=.stig_check_report
           register: stig_temp
+          changed_when: false
 
         - name: "Generate summary report from compliance check"
           local_action: "template src=hostvars.j2 dest={{stig_temp.path}} mode='a+r' backup=yes"
+          changed_when: false
 
         - name: Echo tmpfile
           local_action:  debug var=stig_temp.path
+          changed_when: false
 
         - name: cat report
           local_action: "command cat {{stig_temp.path}}"
           register: stig_report
+          changed_when: false
 
         - name: show report
           local_action: debug var=stig_report.stdout
+          changed_when: false
       run_once: True
       check_mode: no
       when: ansible_check_mode

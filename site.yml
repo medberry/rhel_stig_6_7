@@ -66,6 +66,12 @@
             # Another new oneoff would be entered here before the when
       when: ansible_check_mode
       check_mode: no
+      tags: ONEOFF-001
+
+    - name: latest RESULTS
+      debug: var=ONEOFF-001-RELEASES
+      run_once: true
+      when: ansible_check_mode
 
     - name: Block of local_action (reporting) tasks
       block:

@@ -22,7 +22,7 @@
             # This verifies packages (but reports on files in packages). 
             # It produces a list of changed files in stdout
       register:
-        zumba
+        AEX-001-RESULTS
             # add a real changed_when rc is 0 fail when 1
       failed_when: false
       tags:
@@ -36,7 +36,7 @@
 
     - name: Evaluate RESULTS
       debug: 
-        var: zumba
+        var: AEX-001-RESULTS
       run_once: true
       when: ansible_check_mode
       tags: AEX-001

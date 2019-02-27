@@ -51,7 +51,9 @@
       # You can add "one-off" quick and dirty checks here (before the block of local_actions)
       # This will run on each node
     - name: Oneoff checks
-      command: rpm -Va
+      command: 
+        args: rpm -Va
+        warn: false  
             # This verifies packages (but reports on files in packages). 
             # It produces a list of changed files in stdout
       register: ONEOFF-001-RELEASES
@@ -72,6 +74,7 @@
       debug: var=ONEOFF-001-RELEASES
       run_once: true
       when: ansible_check_mode
+      tags: ONEOFF-001
 
     - name: Block of local_action (reporting) tasks
       block:

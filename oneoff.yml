@@ -9,43 +9,6 @@
       - "This was only an Ansible Check-Mode Run !"
       - "Examine the Recap Summary below for nodes that WOULD have been changed."
 
-#  roles:
-#    - role: CernerPOC.stig_rhel6
-#      rhel6stig_cat1: yes
-#      rhel6stig_cat2: yes
-#      rhel6stig_cat3: yes
-#      when:
-#          - ansible_os_family == 'RedHat'
-#          - not ansible_check_mode
-#          - ansible_distribution_major_version | version_compare('6', '=')
-#
-#    - role: CernerPOC.RHEL7-STIG
-#      rhel7stig_cat1_patch: yes
-#      rhel7stig_cat2_patch: yes
-#      rhel7stig_cat3_patch: yes
-#      when:
-#          - ansible_os_family == 'RedHat'
-#          - ansible_distribution_major_version | version_compare('7', '=')
-#          - not ansible_check_mode
-#
-#    - role: CernerPOC.stig_rhel6
-#      rhel6stig_cat1: yes
-#      rhel6stig_cat2: yes
-#      rhel6stig_cat3: yes
-#      when:
-#          - ansible_os_family == 'RedHat'
-#          - ansible_distribution_major_version | version_compare('6', '=')
-#          - ansible_check_mode
-#
-#    - role: CernerPOC.RHEL7-STIG
-#      rhel7stig_cat1_patch: yes
-#      rhel7stig_cat2_patch: yes
-#      rhel7stig_cat3_patch: yes
-#      when:
-#          - ansible_os_family == 'RedHat'
-#          - ansible_distribution_major_version | version_compare('7', '=')
-#          - ansible_check_mode
-#
   tasks:
 
       # You can add "one-off" quick and dirty checks here (before the block of local_actions)

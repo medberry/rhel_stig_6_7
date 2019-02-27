@@ -9,59 +9,27 @@
       - "This was only an Ansible Check-Mode Run !"
       - "Examine the Recap Summary below for nodes that WOULD have been changed."
 
-#  roles:
-#    - role: CernerPOC.stig_rhel6
-#      rhel6stig_cat1: yes
-#      rhel6stig_cat2: yes
-#      rhel6stig_cat3: yes
-#      when:
-#          - ansible_os_family == 'RedHat'
-#          - not ansible_check_mode
-#          - ansible_distribution_major_version | version_compare('6', '=')
-#
-#    - role: CernerPOC.RHEL7-STIG
-#      rhel7stig_cat1_patch: yes
-#      rhel7stig_cat2_patch: yes
-#      rhel7stig_cat3_patch: yes
-#      when:
-#          - ansible_os_family == 'RedHat'
-#          - ansible_distribution_major_version | version_compare('7', '=')
-#          - not ansible_check_mode
-#
-#    - role: CernerPOC.stig_rhel6
-#      rhel6stig_cat1: yes
-#      rhel6stig_cat2: yes
-#      rhel6stig_cat3: yes
-#      when:
-#          - ansible_os_family == 'RedHat'
-#          - ansible_distribution_major_version | version_compare('6', '=')
-#          - ansible_check_mode
-#
-#    - role: CernerPOC.RHEL7-STIG
-#      rhel7stig_cat1_patch: yes
-#      rhel7stig_cat2_patch: yes
-#      rhel7stig_cat3_patch: yes
-#      when:
-#          - ansible_os_family == 'RedHat'
-#          - ansible_distribution_major_version | version_compare('7', '=')
-#          - ansible_check_mode
-#
+
   tasks:
 
       # You can add "one-off" quick and dirty checks here (before the block of local_actions)
       # This will run on each node
     - name: Altiris check
-      command: 
+      shell: 
         warn: false
         argv:
           - rpm 
-          -  "-q *aex*"
+          -  "-qa"
+          -  "|"
+          -  "grep"
+          -  "-e"
+          -  "aex"
             # This verifies packages (but reports on files in packages). 
             # It produces a list of changed files in stdout
       register: AEX-001-RESULTS
-      changed_when: true
+      changed_when: false
+            # add a real changed_when rc is 0 fail when 1
       failed_when: false
-            # only mark changed when stdout is non empty
       tags:
         - AEX-001
             # Remedying this type of test is outside the scope of a POC. It probably means reinstalling any packages owning the files reported. Almost always there will be files reported.
@@ -71,11 +39,11 @@
       when: ansible_check_mode
       check_mode: no
 
-    - name: latest RESULTS
+    - name: Evaluate RESULTS
       debug: var=AEX-001-RESULTS
       run_once: true
       when: ansible_check_mode
-      tags: ONEOFF-001
+      tags: AEX-001
 
     - name: Block of local_action (reporting) tasks
       block:

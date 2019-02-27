@@ -15,19 +15,13 @@
       # You can add "one-off" quick and dirty checks here (before the block of local_actions)
       # This will run on each node
     - name: Altiris check
-      shell: 
+      shell: rpm -qa | grep -e anss
+      args:
         warn: false
-        argv:
-          - rpm 
-          -  "-qa"
-          -  "|"
-          -  "grep"
-          -  "-e"
-          -  "aex"
+      changed_when: yes
             # This verifies packages (but reports on files in packages). 
             # It produces a list of changed files in stdout
-      register: AEX-001-RESULTS
-      changed_when: false
+      register: zumba
             # add a real changed_when rc is 0 fail when 1
       failed_when: false
       tags:
@@ -40,7 +34,7 @@
       check_mode: no
 
     - name: Evaluate RESULTS
-      debug: var=AEX-001-RESULTS
+      debug: var=zumba
       run_once: true
       when: ansible_check_mode
       tags: AEX-001

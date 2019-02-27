@@ -1,0 +1,9 @@
+Need to create a simple rpm -Va command and put that in this same repo.
+Then tie them together with a workflow. Run the STIG template and then run the ONEOFF template.
+That will give you both in sequence.
+
+Another way to use this would be to workflow a RHEL 6 and then a RHEL 7 check runs.
+
+Similarly, could do a RHEL6 check and then a RHEL6 patch and then rerun the RHEL6 check to validate (in workflow format.)
+
+Change in plans, instead of the "rpm -Va" we'll do a check for existence of some service by checking ps and file/lock/etc existence.

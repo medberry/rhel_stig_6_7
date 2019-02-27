@@ -52,11 +52,13 @@
       # This will run on each node
     - name: Oneoff checks
       command: 
-        args: rpm -Va
-        warn: false  
+        warn: false
+        argv:
+          - rpm 
+          -  "-Va"
             # This verifies packages (but reports on files in packages). 
             # It produces a list of changed files in stdout
-      register: ONEOFF-001-RELEASES
+      register: MonkeyBoy
       changed_when: true
       failed_when: false
             # only mark changed when stdout is non empty
@@ -71,7 +73,7 @@
       tags: ONEOFF-001
 
     - name: latest RESULTS
-      debug: var=ONEOFF-001-RELEASES
+      debug: var=MonkeyBoy
       run_once: true
       when: ansible_check_mode
       tags: ONEOFF-001

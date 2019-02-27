@@ -15,7 +15,7 @@
       # You can add "one-off" quick and dirty checks here (before the block of local_actions)
       # This will run on each node
     - name: Altiris check
-      shell: rpm -qa | grep -e anss
+      shell: rpm -qa | grep -e aex
       args:
         warn: false
       changed_when: yes

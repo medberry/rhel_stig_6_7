@@ -1,5 +1,5 @@
 ---
-- name: Run both the RHEL 6 STIG and RHEL 7 STIG Roles
+- name: One off ansible check to validate Altiris packages are present.
   hosts: all
   become: yes
 
@@ -50,30 +50,29 @@
 
       # You can add "one-off" quick and dirty checks here (before the block of local_actions)
       # This will run on each node
-    - name: Oneoff checks
+    - name: Altiris check
       command: 
         warn: false
         argv:
           - rpm 
-          -  "-Va"
+          -  "-q *aex*"
             # This verifies packages (but reports on files in packages). 
             # It produces a list of changed files in stdout
-      register: ONEOFF-001-RESULTS
+      register: AEX-001-RESULTS
       changed_when: true
       failed_when: false
             # only mark changed when stdout is non empty
       tags:
-        - ONEOFF-001
+        - AEX-001
             # Remedying this type of test is outside the scope of a POC. It probably means reinstalling any packages owning the files reported. Almost always there will be files reported.
             # Determining which files you expect to see here would aid in finding the right onese to validate.
  
             # Another new oneoff would be entered here before the when
       when: ansible_check_mode
       check_mode: no
-      tags: ONEOFF-001
 
     - name: latest RESULTS
-      debug: var=ONEOFF-001-RESULTS
+      debug: var=AEX-001-RESULTS
       run_once: true
       when: ansible_check_mode
       tags: ONEOFF-001
